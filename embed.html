@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>forkphorus</title>
+  <link rel="stylesheet" href="phosphorus.css">
+
+  <!-- Preload all scripts in parallel instead of the browser discovering
+       and fetching them one-by-one as it executes each <script> tag.
+       This does not change execution order, only when the download starts. -->
+  <link rel="preload" href="lib/scratch-sb1-converter.js" as="script">
+  <link rel="preload" href="lib/jszip.min.js" as="script">
+  <link rel="preload" href="lib/fontfaceobserver.standalone.js" as="script">
+  <link rel="preload" href="lib/canvg.min.js" as="script">
+  <link rel="preload" href="lib/purify.min.js" as="script">
+  <link rel="preload" href="phosphorus.dist.js" as="script">
+  <link rel="preload" href="common.js" as="script">
+
+  <style>
+    body {
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .hide-ui .player {
+      box-shadow: none;
+    }
+    .has-ui .player-stage .forkphorus-root {
+      outline: 1px solid rgba(0, 0, 0, 0.4);
+      margin-left: 1px;
+    }
+    .has-ui .player-root[theme=dark] .player-stage .forkphorus-root {
+      outline: 1px solid rgba(255, 255, 255, 0.2);
+      margin-left: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="player"></div>
+
+  <!-- Loading screen: shown until the project finishes loading, then hidden. -->
+  <div id="loading-screen" class="loading-screen" style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#000; z-index:1000; opacity:1; transition:opacity 0.4s ease;">
+    <img src="mod/loading.png" alt="Loading..." style="max-width:100%; max-height:100%;">
+  </div>
+
+  <!-- Local file picker: shown only when no project id/url is given.
+       Lets you pick a .sb / .sb2 / .sb3 file from your computer and
+       play it directly, without needing to upload it anywhere. -->
+  <div class="local-file-picker" style="display:none; font-family: sans-serif; text-align:center; margin-top: 12px;">
+    <label for="local-project-input" style="cursor:pointer; display:inline-block; padding:8px 14px; border:1px solid #999; border-radius:4px;">
+      Choose a .sb / .sb2 / .sb3 file
+    </label>
+    <input id="local-project-input" type="file" accept=".sb,.sb2,.sb3" style="display:none;">
+  </div>
+
+  <script>
+    // Start downloading the project file immediately, in parallel with the
+    // player scripts below, instead of waiting for all scripts to finish
+    // loading before even starting the project download. We only read the
+    // raw project_url from the query string here (duplicating the tiny bit
+    // of parsing common.js also does) purely to kick off the fetch earlier.
+    // Load app-color.json in parallel and apply the loading screen's
+    // background color as soon as it's available.
+    // Current theme (dark by default, until the message from the parent
+    // arrives or localStorage says "light").
+    var __isDark = (function() {
+      try {
+        return localStorage.getItem('tema') !== 'light';
+      } catch (e) {
+        return true;
+      }
+    }());
+
+    fetch('mod/app-colors.json').then(function(r) {
+      return r.ok ? r.json() : null;
+    }).then(function(data) {
+      if (!data) return;
+      var key = __isDark ? 'dark' : 'light';
+      var colors = data[key] || data;
+      if (colors && colors.loadingBackgroundColor) {
+        var el = document.getElementById('loading-screen');
+        if (el) el.style.background = colors.loadingBackgroundColor;
+      }
+    }).catch(function() {
+      // app-color.json missing or invalid: keep the default background.
+    });
+
+    var __earlyProjectFetch = (function() {
+      var params = location.search.substr(1).split('&');
+      for (var i = 0; i < params.length; i++) {
+        var kv = params[i].split('=');
+        if (kv[0] === 'project_url') {
+          var url = decodeURIComponent(kv[1] || '');
+          if (url) {
+            return fetch(url).then(function(r) {
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.arrayBuffer();
+            }).catch(function() {
+              return null; // fall back to the normal loading path on failure
+            });
+          }
+        }
+      }
+      return null;
+    }());
+  </script>
+
+  <script src="lib/scratch-sb1-converter.js"></script>
+  <script src="lib/jszip.min.js"></script>
+  <script src="lib/fontfaceobserver.standalone.js"></script>
+  <script src="lib/canvg.min.js"></script>
+  <script src="lib/purify.min.js"></script>
+  <script src="phosphorus.dist.js"></script>
+  <script src="common.js"></script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    var player = new P.player.Player();
+
+    var hasUI = false;
+    Common.parseSearch(function(key, value) {
+      switch (key) {
+        case 'light-content':
+          if (value === 'true') {
+            player.setOptions({ theme: 'dark' });
+          } else {
+            player.setOptions({ theme: 'light' });
+          }
+          break;
+      }
+    });
+
+    var width = window.innerWidth;
+
+    player.setOptions(Common.playerOptions);
+    player.setOptions({ focusOnLoad: false });
+
+    if (hasUI) {
+      document.body.classList.add('has-ui');
+      player.addControls();
+      // space for border
+      width -= 2;
+      new P.player.ProgressBar(player, {position: 'controls'});
+    }
+    new P.player.ErrorHandler(player);
+    document.querySelector('.player').appendChild(player.root);
+
+    // Switches the costume of the "Dark mode" sprite to "1" (dark) or "0"
+    // (light). If the project hasn't loaded yet, stores the pending value
+    // and applies it as soon as the stage is ready (see onload below).
+    // Also called periodically to correct things in case the Scratch
+    // project itself changes the sprite's costume while running.
+    var __pendingDark = __isDark;
+    function applyDarkModeCostume(dark) {
+      __pendingDark = dark;
+      if (!player.stage) return; // project hasn't loaded yet
+      var sprite = player.stage.getObject('Dark mode');
+      if (!sprite) {
+        console.warn('forkphorus: sprite "Dark mode" not found in project');
+        return;
+      }
+      var expectedName = dark ? '1' : '0';
+      if (sprite.getCostumeName() !== expectedName) {
+        sprite.setCostume(expectedName);
+        if (player.stage.draw) player.stage.draw();
+      }
+    }
+
+    // Checks every 2 seconds whether the costume still matches what's
+    // expected and fixes it if the project itself changed it meanwhile.
+    setInterval(function() {
+      applyDarkModeCostume(__pendingDark);
+    }, 2000);
+
+    // Implement Parent -> Embed API
+    window.addEventListener('message', function(e) {
+      var data = e.data;
+      var type = data.type;
+      switch (type) {
+        case 'start': {
+          player.resume();
+          break;
+        }
+        case 'pause': {
+          player.pause();
+          break;
+        }
+        case 'theme-change': {
+          applyDarkModeCostume(!!data.dark);
+          break;
+        }
+        default: {
+          console.warn('Unknown message type from parent', type);
+        }
+      }
+    });
+
+    // Implement Embed -> Parent API
+    var id = Math.random().toString().substr(2, 5) + '-' + Common.projectId + '-' + Date.now();
+    function postMessage(type, data) {
+      if (window.parent && window.parent !== window && window.parent.postMessage) {
+        var data = Object.assign({
+          id: id,
+          type: type,
+        }, data || {});
+        window.parent.postMessage(data, '*');
+      }
+    }
+    player.onprogress.subscribe(function(progress) {
+      postMessage('progress', { progress: progress });
+    });
+    player.onload.subscribe(function() {
+      postMessage('load');
+      hideLoadingScreen();
+    });
+    player.onstartload.subscribe(function() {
+      postMessage('startload');
+    });
+    player.onerror.subscribe(function(error) {
+      postMessage('error');
+      hideLoadingScreen();
+    });
+    player.onpause.subscribe(function(error) {
+      postMessage('pause');
+    });
+    postMessage('hello', { version: 1 });
+
+    function afterLoad() {
+      player.stage.setZoom(width / 480);
+      // First costume swap delayed by 0.2s after the game starts, to
+      // give the project time to initialize the sprite before we touch
+      // its costume.
+      setTimeout(function() {
+        applyDarkModeCostume(__pendingDark);
+      }, 50);
+    }
+
+    var loadingScreen = document.querySelector('.loading-screen');
+    function hideLoadingScreen() {
+      loadingScreen.style.opacity = '0';
+      loadingScreen.style.pointerEvents = 'none';
+      setTimeout(function() {
+        loadingScreen.style.display = 'none';
+      }, 400); // matches the CSS transition duration
+    }
+    function showLoadingScreen() {
+      loadingScreen.style.display = 'flex';
+      // Force reflow so the browser registers the display change before
+      // we animate opacity back in, otherwise the fade-in is skipped.
+      void loadingScreen.offsetWidth;
+      loadingScreen.style.opacity = '1';
+      loadingScreen.style.pointerEvents = 'auto';
+    }
+
+    var localPicker = document.querySelector('.local-file-picker');
+    var localInput = document.getElementById('local-project-input');
+
+    localInput.addEventListener('change', function() {
+      var file = localInput.files && localInput.files[0];
+      if (!file) return;
+      localPicker.style.display = 'none';
+      showLoadingScreen();
+      player.loadProjectFromFile(file).then(afterLoad);
+    });
+
+    if (Common.projectId) {
+      // Load by numeric Scratch project ID (existing behavior).
+      player.loadProjectById(Common.projectId).then(afterLoad);
+    } else if (Common.projectUrl) {
+      // Load a project from a URL (e.g. ?project_url=https://.../game.sb3
+      // or a local relative path like ?project_url=games/game.sb3).
+      // Reuse the fetch kicked off at the very top of the page (in parallel
+      // with script loading) when it succeeded, instead of downloading the
+      // project a second time.
+      (__earlyProjectFetch || new P.io.Request(Common.projectUrl).load('arraybuffer'))
+        .then(function(buffer) {
+          if (!buffer) {
+            // Early fetch failed (e.g. CORS on file://) - fall back to the
+            // normal loader, which reports errors properly.
+            return new P.io.Request(Common.projectUrl).load('arraybuffer');
+          }
+          return buffer;
+        })
+        .then(function(buffer) {
+          var extension = (Common.projectUrl.split('.').pop() || '').split(/[?#]/)[0];
+          var type = extension === 'sb' ? 'sb' : extension === 'sb2' ? 'sb2' : 'sb3';
+          return player.loadProjectFromBuffer(buffer, type);
+        })
+        .then(afterLoad);
+    } else {
+      // No project specified: let the user pick a local file from disk.
+      hideLoadingScreen();
+      localPicker.style.display = 'block';
+    }
+  }());
+  </script>
+</body>
+</html>
