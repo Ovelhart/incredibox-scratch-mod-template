@@ -1,0 +1,10 @@
+{
+  "dark": {
+    "appBackgroundColor": "#000000",
+    "loadingBackgroundColor": "#000000"
+  },
+  "light": {
+    "appBackgroundColor": "#ffffff",
+    "loadingBackgroundColor": "#ffffff"
+  }
+}
