@@ -224,19 +224,16 @@
         if (fade) fade.style.background = colors.appBackgroundColor;
     }
 
-    // Load app-colors.json and apply the app's background color for the
+    // Load app.json and apply the app's background color for the
     // current theme (dark/light).
-    fetch('mod/app-colors.json').then(function (r) {
+    fetch('mod/app.json').then(function (r) {
         return r.ok ? r.json() : null;
     }).then(function (data) {
         if (!data) return;
         const key = isDarkMode() ? "dark" : "light";
-        // Supports both the new format ({dark:{...}, light:{...}}) and
-        // the old one (flat object), so it doesn't break if the json
-        // hasn't been updated yet.
         const colors = data[key] || data;
         applyThemeColors(colors);
     }).catch(function () {
-        // app-colors.json missing or invalid: keep the default background.
+        // app.json missing or invalid: keep the default background.
     });
 </script>
