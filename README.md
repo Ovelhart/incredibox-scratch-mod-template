@@ -14,9 +14,23 @@ This is a template for converting Scratch-based Incredibox mods into websites, w
 
 # How to change the colors
 
-To modify the colors in `index.html` (the interface with the "Play" button), edit the `colors.json` file. It contains six colors in the same order as Incredibox. If you're having trouble getting the colors to look right, I recommend using [this tool](https://ovelhart.github.io/Incredibox-Tools/tools/colors.html) that I created for this purpose.
+To modify the colors in `index.html` (the interface with the "Play" button), edit the `app.json` file in the mod folder. It contains a `"colors"` section listing six colors in the same order as in Incredibox. If you have trouble adjusting the colors correctly, I recommend using [this tool](https://ovelhart.github.io/Incredibox-Tools/tools/colors.html) that I created for this purpose.
 
-To change the colors of the loading screen and the game background in `app.html`, edit the `app-colors.json` file. It contains the colors for both dark and light modes.
+To change the colors of the loading screen and the game background in `app.html`, edit the `app.json` file under the `"dark"` and `"light"` sections:
+
+```json
+"dark": {
+  "appBackgroundColor": "#000000",
+  "loadingBackgroundColor": "#000000"
+},
+"light": {
+  "appBackgroundColor": "#ffffff",
+  "loadingBackgroundColor": "#ffffff"
+}
+```
+
+These sections contain the colors for the dark and light modes, respectively.
+
 
 # How to change the settings
 
