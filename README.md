@@ -23,10 +23,8 @@ To change the colors of the loading screen and the game background in `app.html`
 To change the settings, edit the `app.json` file in the mod folder. It contains the following configuration:
 
 ```json
-{
   "theme-toggle": true,
-  "default-theme": "dark"
-}
+  "default-theme": "dark",
 ```
 
 `"theme-toggle"` determines whether the theme toggle is enabled, while `"default-theme"` sets the default theme, which can be `"dark"` or `"light"`.
