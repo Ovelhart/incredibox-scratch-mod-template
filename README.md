@@ -2,6 +2,13 @@
 
 This is a template for converting Scratch-based Incredibox mods into websites, which can then be turned into Android and desktop applications.
 
+# Features
+
+* The mod's theme can change based on the player's selected theme. For example, if the player selects dark mode, the mod will reflect that choice when the game starts.
+
+* To achieve this, the `"Dark mode"` actor's costume is set to `1` for dark mode and `0` for light mode. The setting is checked and updated every two seconds.
+
+
 # How to change the colors
 
 To modify the colors in `index.html` (the interface with the "Play" button), edit the `colors.json` file. It contains six colors in the same order as Incredibox. If you're having trouble getting the colors to look right, I recommend using [this tool](https://ovelhart.github.io/Incredibox-Tools/tools/colors.html) that I created for this purpose.
@@ -28,3 +35,7 @@ To change the mod's name and credits, edit the corresponding lines in the `index
 * **Line 16** contains the name of the person who ported the mod (default: `"your name"`).
 * **Line 22** contains the mod's name (default: `"modbox"`).
 * **Line 50** contains the mod creator's name (default: `"GamerXD1010"`).
+
+# Information
+
+I used forkphorus to run the project.
