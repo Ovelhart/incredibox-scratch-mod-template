@@ -2,6 +2,9 @@
 
 This is a template for converting Scratch-based Incredibox mods into websites, which can then be turned into Android and desktop applications.
 
+[![GitHub stars](https://img.shields.io/github/stars/Ovelhart/incredibox-scratch-mod-template)](https://github.com/Ovelhart/incredibox-scratch-mod-template/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Ovelhart/incredibox-scratch-mod-template)](https://github.com/Ovelhart/incredibox-scratch-mod-template/network/members)
+
 # Features
 
 * The mod's theme can change based on the player's selected theme. For example, if the player selects dark mode, the mod will reflect that choice when the game starts.
