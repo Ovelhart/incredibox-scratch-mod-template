@@ -164,6 +164,19 @@ body {
     font-style: normal;
 }
 
+#mod-title-img {
+    display: none;
+    position: fixed;
+    bottom: 9rem;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: calc(100% - 1rem);
+    width: auto;
+    object-fit: contain;
+    user-select: none;
+    pointer-events: none;
+}
+
 #parte-cinza {
     display: flex;
     z-index: 99;
