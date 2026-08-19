@@ -20,7 +20,7 @@ To change the colors of the loading screen and the game background in `app.html`
 
 # How to change the settings
 
-To change the settings, edit the `app-config.json` file. It contains the following configuration:
+To change the settings, edit the `app.json` file in the mod folder. It contains the following configuration:
 
 ```json
 {
@@ -29,15 +29,15 @@ To change the settings, edit the `app-config.json` file. It contains the followi
 }
 ```
 
-`"theme-toggle"` determines whether the theme toggle is enabled, while `"default-theme"` sets the default theme, which can be either `"dark"` or `"light"`.
+`"theme-toggle"` determines whether the theme toggle is enabled, while `"default-theme"` sets the default theme, which can be `"dark"` or `"light"`.
 
 # How to change the mod name and credits
 
-To change the mod's name and credits, edit the corresponding lines in the `index.html` file:
+To change the mod's name and credits, edit the `"port-by": "your name"` and `"mod-by": "GamerXD1010"` fields in the `app.json` file located in the mod folder.
 
-* **Line 16** contains the name of the person who ported the mod (default: `"your name"`).
-* **Line 22** contains the mod's name (default: `"modbox"`).
-* **Line 50** contains the mod creator's name (default: `"GamerXD1010"`).
+# How to change the title to an image
+
+To use an image as the title, change the `"mode"` field in `app.json` to `"image"`. If the image appears too small, adjust the `"size"` field. If your title image has a different filename, update the `"image"` field accordingly.
 
 # Information
 
