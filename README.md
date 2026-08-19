@@ -11,6 +11,9 @@ This is a template for converting Scratch-based Incredibox mods into websites, w
 
 * To achieve this, the `"Dark mode"` actor's costume is set to `1` for dark mode and `0` for light mode. The setting is checked and updated every two seconds.
 
+* It allows you to use an image as the mod's title.
+
+* To modify the mod's settings and colors, you only need to edit a single file: app.json, located in the mod folder.
 
 # How to change the colors
 
