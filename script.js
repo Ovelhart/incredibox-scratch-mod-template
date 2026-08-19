@@ -10,24 +10,46 @@ function setColor(number, color) {
     document.documentElement.style.setProperty(`--color-${number}`, color);
 }
 
-async function loadColorsFromJson() {
-    try {
-        const response = await fetch("colors.json");
-
-        if (!response.ok) throw new Error("colors.json not found");
-
-        const data = await response.json();
-
-        if (!Array.isArray(data.colors) || data.colors.length < 6)
-            throw new Error("Invalid colors.json format");
-
-        for (let i = 0; i < 6; i++) {
-            setColor(i + 1, data.colors[i]);
-        }
-
-    } catch (err) {
-        console.warn("Could not load colors.json, using CSS defaults.", err);
+function applyColors(colors) {
+    if (!Array.isArray(colors) || colors.length < 6) return;
+    for (let i = 0; i < 6; i++) {
+        setColor(i + 1, colors[i]);
     }
+}
+
+function applyModName(name) {
+    if (!name) return;
+    const modNameEl = document.getElementById("nome-do-mod");
+    if (modNameEl) modNameEl.textContent = name;
+}
+
+function applyTitle(title, modName) {
+    const textEl = document.getElementById("nome-do-mod");
+    const imgEl = document.getElementById("mod-title-img");
+    if (!textEl || !imgEl) return;
+
+    const config = title || {};
+    const mode = config.mode === "image" ? "image" : "text";
+    const parsedSize = parseFloat(config.size);
+    const size = !isNaN(parsedSize) ? parsedSize : 2;
+
+    if (mode === "image" && config.image) {
+        textEl.style.display = "none";
+        imgEl.src = `mod/${config.image}`;
+        imgEl.style.height = `${size}rem`;
+        imgEl.style.display = "block";
+    } else {
+        imgEl.style.display = "none";
+        imgEl.src = "";
+        textEl.style.display = "inline-block";
+        textEl.style.fontSize = `${size}rem`;
+        if (modName) textEl.textContent = modName;
+    }
+}
+
+function applyGearButton(show) {
+    const gearBtn = document.getElementById("config-btn");
+    if (gearBtn) gearBtn.style.display = show === false ? "none" : "flex";
 }
 
 const UI_SIZE_DEFAULT = 100;
@@ -101,21 +123,25 @@ function applyTheme(light) {
     if (themeToggle) themeToggle.checked = light;
 }
 
+let appConfigCache = null;
+
 async function loadAppConfig() {
+    if (appConfigCache) return appConfigCache;
     try {
-        const response = await fetch("mod/app-config.json");
-        if (!response.ok) throw new Error("app-config.json not found");
-        return await response.json();
+        const response = await fetch("mod/app.json");
+        if (!response.ok) throw new Error("app.json not found");
+        appConfigCache = await response.json();
     } catch (err) {
-        console.warn("Could not load app-config.json, using defaults.", err);
-        return {};
+        console.warn("Could not load app.json, using defaults.", err);
+        appConfigCache = {};
     }
+    return appConfigCache;
 }
 
 async function loadTheme() {
     const config = await loadAppConfig();
 
-    // ---- Show/hide the theme toggle based on app-config.json ----
+    // ---- Show/hide the theme toggle based on app.json ----
     const themeRow = document.getElementById("theme-row");
     const themeTitle = document.getElementById("theme-title");
     const showToggle = config["theme-toggle"] === true;
@@ -123,7 +149,7 @@ async function loadTheme() {
     if (themeTitle) themeTitle.style.display = showToggle ? "" : "none";
 
     // ---- Pick the theme: localStorage takes priority; if there's no
-    // saved value, fall back to the default theme from app-config.json. ----
+    // saved value, fall back to the default theme from app.json. ----
     const saved = localStorage.getItem("tema");
     let light;
     if (saved !== null) {
@@ -133,6 +159,14 @@ async function loadTheme() {
     }
 
     applyTheme(light);
+}
+
+async function loadModInfo() {
+    const config = await loadAppConfig();
+    applyModName(config["mod-name"]);
+    applyTitle(config["title"], config["mod-name"]);
+    applyCredits(config["port-by"], config["mod-by"]);
+    applyColors(config["colors"]);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -205,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---- Init ----
     loadTheme();
-    loadColorsFromJson();
+    loadModInfo();
     loadInterfaceSize();
 });
 
