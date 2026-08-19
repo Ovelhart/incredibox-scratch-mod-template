@@ -39,3 +39,5 @@ To change the mod's name and credits, edit the corresponding lines in the `index
 # Information
 
 I used forkphorus to run the project.
+
+If you'd like to test it, here is the [link]([https://example.com](https://ovelhart.github.io/incredibox-scratch-mod-template/)).
