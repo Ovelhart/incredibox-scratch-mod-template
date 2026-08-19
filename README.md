@@ -23,3 +23,8 @@ To change the settings, edit the `app-config.json` file. It contains the followi
 
 # How to change the mod name and credits
 
+To change the mod's name and credits, edit the corresponding lines in the `index.html` file:
+
+* **Line 16** contains the name of the person who ported the mod (default: `"your name"`).
+* **Line 22** contains the mod's name (default: `"modbox"`).
+* **Line 50** contains the mod creator's name (default: `"GamerXD1010"`).
