@@ -20,3 +20,6 @@ To change the settings, edit the `app-config.json` file. It contains the followi
 ```
 
 `"theme-toggle"` determines whether the theme toggle is enabled, while `"default-theme"` sets the default theme, which can be either `"dark"` or `"light"`.
+
+# How to change the mod name and credits
+
