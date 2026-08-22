@@ -47,6 +47,12 @@ function applyTitle(title, modName) {
     }
 }
 
+function applyHomeBackground(image) {
+    const el = document.getElementById("home-screen-img");
+    if (!el || !image) return;
+    el.style.backgroundImage = `url('${getModPath(image)}')`;
+}
+
 function applyGearButton(show) {
     const gearBtn = document.getElementById("config-btn");
     if (gearBtn) gearBtn.style.display = show === false ? "none" : "flex";
@@ -188,6 +194,7 @@ async function loadModInfo() {
     applyTitle(config["title"], config["mod-name"]);
     applyCredits(config["port-by"], config["mod-by"]);
     applyColors(config["colors"]);
+    applyHomeBackground(config["background-image"]);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
