@@ -2,6 +2,7 @@
     {
         "folder": "assets-v1",
         "icon": "assets-v1/icon.jpg",
+        "background-image": "home-screen.jpg",
         "mod-name": "Modbox",
         "title": {
             "mode": "text",
