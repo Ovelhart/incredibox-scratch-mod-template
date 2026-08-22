@@ -111,7 +111,6 @@ body {
     height: calc(100% - 6rem);
     z-index: 0;
     background-color: transparent;
-    background-image: url('img/home-screen.jpg');
     background-size: auto 100%;
     background-repeat: no-repeat;
     background-position: center;
