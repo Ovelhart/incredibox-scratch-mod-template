@@ -1,0 +1,355 @@
+:root {
+    --color-1: #b78b59;/* text */
+    --color-2: #BA7B3D;/* main color */
+    --color-3: #A16224;/* used on a few buttons, like the search one in incredimods */
+    --color-4: #6A3501;/* hover state for buttons using the main color */
+    --color-5: #422101;/* selected category in the incredimods tab */
+    --color-6: #201200;/* background */
+
+    --menu-bg: black;
+    --menu-text: white;
+    --menu-input-bg: #1e1e1e;
+    --menu-input-text: #d4d4d4;
+    --menu-input-border: #444;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(21, 21, 21);
+    height: 100%;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background-color 0.2s;
+}
+body.light-theme {
+    background-color: #f2f2f2;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+#row {
+    display: flex;
+    width: 80%;
+    max-width: 60rem;
+    max-height: 80vh;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow-y: auto;
+    padding: 1rem 0;
+}
+.app-tool {
+    height: calc(6rem + 2rem);
+    width: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin: 0 1rem;
+}
+.app-tool:hover {
+    scale: 1.05;
+    transition: all 0.15s;
+}
+.app-tool .appimg {
+    background-color: black;
+    width: 100%;
+    border-radius: 1.5rem;
+    user-select: none;
+}
+.app-tool .appname {
+    height: 2rem;
+    width: 100%;
+    font-size: 1.3rem;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-family: "Allan", serif;
+    user-select: none;
+    font-weight: 500;
+    margin-top: 0.3rem;
+}
+#fade{
+    position: fixed;
+    inset: 0;
+    background: black;
+    z-index: 9999;
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+#fade.fade-out{
+    opacity: 0;
+}
+.allan-regular {
+    font-family: "Allan", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.allan-bold {
+    font-family: "Allan", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+#credit-game {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 0.5rem;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    z-index: 1;
+    color: white;
+    user-select: none;
+}
+.color-1 {
+    margin-left: 0.3rem;
+    color: var(--color-1);
+}
+#colors {
+    color: #ba7b3d;
+}
+#config-btn {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    top: 0.5rem;
+    right: 0.5rem;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: var(--color-2);
+    transition: all 0.15s;
+    z-index: 2;
+}
+
+#config-btn:hover {
+    transition: all 0.15s;
+    background-color: var(--color-4);
+}
+
+#config-btn svg {
+    fill: white;
+    height: 70%;
+}
+body.light-theme {
+    --menu-bg: #f2f2f2;
+    --menu-text: #1a1a1a;
+    --menu-input-bg: #ffffff;
+    --menu-input-text: #1a1a1a;
+    --menu-input-border: #ccc;
+}
+#gray-overlay {
+    display: flex;
+    z-index: 99;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(190, 190, 190, 0.307);
+}
+#config-menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: fit-content;
+    min-height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    z-index: 100;
+    transition: all 0.3s;
+    user-select: none;
+    min-width: 30rem;
+    max-width: 40rem;
+}
+#config-menu #tabs {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    border-radius: 0.4rem 0.4rem 0 0;
+    background-color: var(--color-4);
+}
+#config-menu #tabs .tab {
+    border-radius: 0.4rem 0.4rem 0 0;
+    min-width: 6rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 3rem;
+    color: var(--color-1);
+    cursor: pointer;
+    background-color: var(--color-4);
+}
+#config-menu #tabs .tab.selected {
+    border-radius: 0.4rem 0.4rem 0 0;
+    min-width: 6rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 3rem;
+    cursor: pointer;
+    background-color: var(--color-2);
+    color: white;
+}
+#config-menu #menu-content {
+    background-color: var(--menu-bg);
+    color: var(--menu-text);
+    min-height: 10rem;
+    padding: 0.5rem;
+    border-radius: 0 0.4rem 0.4rem 0.4rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+#menu-content h2 {
+    color: var(--menu-text);
+    font-size: 1.1rem;
+    margin: 1.2rem 0 0.6rem;
+}
+#menu-content h2:first-child {
+    margin-top: 0;
+}
+#menu-content p {
+    color: var(--menu-text);
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+.tab,
+.selected {
+    user-select: none;
+    transition: .2s;
+}
+.tab:hover {
+    background: var(--color-2);
+    color: white;
+}
+.setting-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: .7rem;
+}
+.setting-row label {
+    flex: 1;
+    color: white;
+}
+.light-theme .setting-row label {
+    flex: 1;
+    color: black !important;
+}
+#theme-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 3rem;
+    height: 1.6rem;
+    border-radius: 1rem;
+    background-color: var(--color-4);
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+#theme-toggle::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background-color: white;
+    transition: transform 0.2s;
+}
+#theme-toggle:checked {
+    background-color: var(--color-2);
+}
+#theme-toggle:checked::before {
+    transform: translateX(1.4rem);
+}
+#ui-size-row {
+    align-items: center;
+}
+#ui-size-row label {
+    flex: 1;
+}
+#ui-size-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 60%;
+    height: 0.4rem;
+    border-radius: 0.4rem;
+    background: var(--color-4);
+    outline: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+#ui-size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-2);
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+#ui-size-slider::-webkit-slider-thumb:hover {
+    border-color: var(--color-4);
+}
+#ui-size-slider::-moz-range-thumb {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-2);
+    cursor: pointer;
+}
+#reset-size {
+    width: 100%;
+    margin-top: 0.7rem;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: var(--color-2);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+#reset-size:hover {
+    background-color: var(--color-4);
+}
+#reset-size:active {
+    transform: scale(0.97);
+}
+#reset-size:focus {
+    outline: 2px solid var(--color-5);
+    outline-offset: 2px;
+}

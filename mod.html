@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>app</title>
+    <style>
+        html,
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #project {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            height: 99%;
+            width: 90%;
+            max-width: 130vh;
+        }
+
+        #project * {
+            user-select: none !important;
+            -webkit-user-drag: none !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        * {
+            user-select: none !important;
+            -webkit-user-drag: none !important;
+        }
+
+        #exit-btn {
+            fill: white;
+            background-color: gray;
+            width: 4rem;
+            height: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            border-radius: 50%;
+            position: fixed;
+            bottom: 1rem;
+            left: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 20;
+        }
+
+        #exit-btn:hover {
+            background-color: rgb(83, 83, 83);
+        }
+
+        #exit-btn svg {
+            display: flex;
+            flex-direction: column;
+            height: 2rem;
+            width: 2rem;
+        }
+
+        #fade {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 9999;
+            opacity: 1;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        #fade.fade-out {
+            opacity: 0;
+        }
+
+        #project-fade {
+            position: absolute;
+            inset: 0;
+            background-color: black;
+            z-index: 10;
+            opacity: 1;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        #project-fade.fade-out {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="fade"></div>
+    <div id="exit-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+            <!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+            <path
+                d="M73.4 297.4C60.9 309.9 60.9 330.2 73.4 342.7L233.4 502.7C245.9 515.2 266.2 515.2 278.7 502.7C291.2 490.2 291.2 469.9 278.7 457.4L173.3 352L544 352C561.7 352 576 337.7 576 320C576 302.3 561.7 288 544 288L173.3 288L278.7 182.6C291.2 170.1 291.2 149.8 278.7 137.3C266.2 124.8 245.9 124.8 233.4 137.3L73.4 297.3z" />
+        </svg>
+    </div>
+    <div id="project">
+        <div id="project-fade"></div>
+    </div>
+    <script src="lib/scaffolding-with-music.js"></script>
+
+    <script>
+        // Reads the version folder from the ?v= query param.
+        function getModFolder() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('v') || '1';
+        }
+
+        function getModPath(file) {
+            return `./${getModFolder()}/${file}`;
+        }
+
+        let darkModeAppConfig = null;
+
+        async function loadDarkModeAppConfig() {
+            if (darkModeAppConfig) return darkModeAppConfig;
+            try {
+                const response = await fetch('./versions.json');
+                if (!response.ok) throw new Error('versions.json not found');
+                const versions = await response.json();
+                const folder = getModFolder();
+                const found = Array.isArray(versions)
+                    ? versions.find((v) => String(v.folder) === String(folder))
+                    : null;
+                darkModeAppConfig = found || {};
+            } catch (error) {
+                console.warn('Could not load versions.json:', error);
+                darkModeAppConfig = {};
+            }
+            return darkModeAppConfig;
+        }
+
+        function isDarkModeActive(config) {
+            const saved = localStorage.getItem('theme');
+            if (saved !== null) return saved !== 'light';
+            return config['default-theme'] !== 'light';
+        }
+
+
+        function syncProjectFadeColor() {
+            const projectFade = document.getElementById('project-fade');
+            if (!projectFade) return;
+            projectFade.style.backgroundColor = getComputedStyle(document.body).backgroundColor;
+        }
+
+        function applyAppBackgroundColor(config, dark) {
+            const themeBlock = dark ? config.dark : config.light;
+            if (themeBlock && themeBlock.appBackgroundColor) {
+                document.documentElement.style.backgroundColor = themeBlock.appBackgroundColor;
+                document.body.style.backgroundColor = themeBlock.appBackgroundColor;
+            }
+            syncProjectFadeColor();
+        }
+
+        loadDarkModeAppConfig().then((config) => {
+            applyAppBackgroundColor(config, isDarkModeActive(config));
+        });
+
+        document.getElementById('exit-btn').addEventListener('click', () => {
+            window.location.href = 'app.html?v=' + encodeURIComponent(getModFolder());
+        });
+
+        window.addEventListener('load', () => {
+            const fade = document.getElementById('fade');
+            fade.classList.add('fade-out');
+            fade.addEventListener('transitionend', () => fade.remove(), { once: true });
+
+            // dims #project with the body's own background color, fades out shortly after load
+            const projectFade = document.getElementById('project-fade');
+            if (projectFade) {
+                syncProjectFadeColor();
+                setTimeout(() => {
+                    projectFade.classList.add('fade-out');
+                    projectFade.addEventListener('transitionend', () => projectFade.remove(), { once: true });
+                }, 400);
+            }
+        });
+
+        const UI_SIZE_DEFAULT = 100;
+
+        function getSizeLimits() {
+            const width = window.innerWidth;
+
+            if (width <= 400) return { min: 50, max: 110 };
+            if (width <= 700) return { min: 60, max: 130 };
+            if (width <= 1100) return { min: 70, max: 150 };
+            return { min: 70, max: 180 };
+        }
+
+        function applyInterfaceSize(percentage) {
+            document.documentElement.style.fontSize = percentage + '%';
+        }
+
+        function loadInterfaceSize() {
+            const saved = localStorage.getItem('uiSize');
+            const { min, max } = getSizeLimits();
+            let percentage = saved ? parseInt(saved, 10) : UI_SIZE_DEFAULT;
+            if (Number.isNaN(percentage)) percentage = UI_SIZE_DEFAULT;
+            percentage = Math.min(Math.max(percentage, min), max);
+            applyInterfaceSize(percentage);
+        }
+
+        loadInterfaceSize();
+
+        // recalculate on rotation/resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(loadInterfaceSize, 200);
+        });
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'uiSize') loadInterfaceSize();
+        });
+    </script>
+
+    <script>
+        const scaffolding = new Scaffolding.Scaffolding();
+
+        scaffolding.width = 480;
+        scaffolding.height = 360;
+        scaffolding.resizeMode = 'preserve-ratio';
+
+        scaffolding.setup();
+        scaffolding.appendTo(document.getElementById('project'));
+
+        const storage = scaffolding.storage;
+
+        storage.addWebStore(
+            [
+                storage.AssetType.ImageVector,
+                storage.AssetType.ImageBitmap,
+                storage.AssetType.Sound
+            ],
+            (asset) => `https://assets.scratch.mit.edu/internalapi/asset/${asset.assetId}.${asset.dataFormat}/get/`
+        );
+
+        async function loadMod() {
+            try {
+                const response = await fetch(getModPath('mod.sb3'));
+                if (!response.ok) {
+                    throw new Error(`Failed to load mod.sb3: HTTP ${response.status}`);
+                }
+
+                const project = await response.arrayBuffer();
+                await scaffolding.loadProject(project);
+                scaffolding.greenFlag();
+
+                // project's running now, so start syncing theme + costume
+                initDarkModeSystem();
+            } catch (error) {
+                console.error('Error loading mod.sb3:', error);
+            }
+        }
+
+        loadMod();
+
+        function findDarkModeActor() {
+            if (!scaffolding.vm || !scaffolding.vm.runtime) return null;
+            return scaffolding.vm.runtime.targets.find(
+                (t) =>
+                    t.sprite &&
+                    typeof t.sprite.name === 'string' &&
+                    t.sprite.name.toLowerCase().includes('dark mode')
+            );
+        }
+
+        function updateDarkModeActorCostume(dark) {
+            const actor = findDarkModeActor();
+            if (!actor) return;
+
+            // costume 2 for dark, costume 1 for light
+            const costumeIndex = dark ? 1 : 0;
+
+            if (
+                costumeIndex >= 0 &&
+                costumeIndex < actor.sprite.costumes.length &&
+                actor.currentCostume !== costumeIndex
+            ) {
+                setTimeout(() => actor.setCostume(costumeIndex), 100);
+            }
+        }
+
+        function tickDarkModeSystem(config) {
+            const dark = isDarkModeActive(config);
+            applyAppBackgroundColor(config, dark);
+            updateDarkModeActorCostume(dark);
+        }
+
+        async function initDarkModeSystem() {
+            const config = await loadDarkModeAppConfig();
+
+            // apply right away, don't wait for the first interval tick
+            tickDarkModeSystem(config);
+
+            // then poll every 2s in case the theme changes mid-session
+            setInterval(() => tickDarkModeSystem(config), 2000);
+        }
+    </script>
+</body>
+
+</html>

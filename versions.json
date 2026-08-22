@@ -1,0 +1,30 @@
+[
+    {
+        "folder": "assets-v1",
+        "icon": "assets-v1/icon.jpg",
+        "mod-name": "Modbox",
+        "title": {
+            "mode": "text",
+            "image": "title.png",
+            "size": 4.6
+        },
+        "port-by": "your name",
+        "mod-by": "GamerXD1010",
+        "theme-toggle": true,
+        "default-theme": "dark",
+        "colors": [
+            "#D8A365",
+            "#BA7B3D",
+            "#A16224",
+            "#6A3501",
+            "#422101",
+            "#201200"
+        ],
+        "dark": {
+            "appBackgroundColor": "#000000"
+        },
+        "light": {
+            "appBackgroundColor": "#ffffff"
+        }
+    }
+]
