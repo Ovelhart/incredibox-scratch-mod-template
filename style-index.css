@@ -114,7 +114,7 @@ body {
     justify-content: center;
     text-align: center;
     z-index: 1;
-    color: white;
+    color: var(--menu-text);
     user-select: none;
 }
 .color-1 {
@@ -352,4 +352,73 @@ body.light-theme {
 #reset-size:focus {
     outline: 2px solid var(--color-5);
     outline-offset: 2px;
+}
+#credits-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+    width: 5rem;
+    position: fixed;
+    top: 0.5rem;
+    left: 0.5rem;
+    background-image: url(img/credits.png);
+    background-size:100% 100%;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+#credits-btn:hover {
+    scale: 1.1;
+    transition: all 0.1s;
+}
+#credits-menu {
+    display: flex;
+    z-index: 99;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(190, 190, 190, 0.307);
+    user-select: none;
+}
+#credits-menu.show {
+    display: flex !important;
+}
+#credits-menu-content {
+    flex-direction: column;
+    display: flex;
+    padding: 1rem;
+    background-color: var(--menu-bg);
+    color: var(--menu-text);
+    height: 30rem;
+    width: 28rem;
+    border-radius: 1rem;
+}
+#menu-credit-back {
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    justify-content: right;
+    position:relative;
+    bottom: 2rem;
+    left: 2rem;
+}
+#menu-credit-back #icon-credit {
+    background-color: var(--color-1);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    padding: 0.8rem;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 50%;
+    fill: white;
 }

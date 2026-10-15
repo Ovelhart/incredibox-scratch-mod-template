@@ -1,0 +1,662 @@
+
+#credits-menu-content {
+    color: var(--menu-text);
+    counter-reset: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+    line-height: 1.42;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word
+}
+
+#credits-menu-content p,
+#credits-menu-content ol,
+#credits-menu-content pre,
+#credits-menu-content blockquote,
+#credits-menu-content h1,
+#credits-menu-content h2,
+#credits-menu-content h3,
+#credits-menu-content h4,
+#credits-menu-content h5,
+#credits-menu-content h6 {
+    margin: 0;
+    padding: 0
+}
+
+@supports (counter-set:none) {
+
+    #credits-menu-content p,
+    #credits-menu-content h1,
+    #credits-menu-content h2,
+    #credits-menu-content h3,
+    #credits-menu-content h4,
+    #credits-menu-content h5,
+    #credits-menu-content h6 {
+        counter-set: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+
+    #credits-menu-content p,
+    #credits-menu-content h1,
+    #credits-menu-content h2,
+    #credits-menu-content h3,
+    #credits-menu-content h4,
+    #credits-menu-content h5,
+    #credits-menu-content h6 {
+        counter-reset: list-0 list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%
+}
+
+#credits-menu-content td {
+    border: 1px solid var(--menu-text);
+    padding: 2px 5px;
+    outline: none
+}
+
+#credits-menu-content ol {
+    padding-left: 1.5em
+}
+
+#credits-menu-content li {
+    list-style-type: none;
+    padding-left: 1.5em;
+    position: relative
+}
+
+#credits-menu-content li>.ql-ui:before {
+    display: inline-block;
+    margin-left: -1.5em;
+    margin-right: .3em;
+    text-align: right;
+    white-space: nowrap;
+    width: 1.2em
+}
+
+#credits-menu-content li[data-list=checked]>.ql-ui,
+#credits-menu-content li[data-list=unchecked]>.ql-ui {
+    color: var(--menu-text)
+}
+
+#credits-menu-content li[data-list=bullet]>.ql-ui:before {
+    content: '\2022'
+}
+
+#credits-menu-content li[data-list=checked]>.ql-ui:before {
+    content: '\2611'
+}
+
+#credits-menu-content li[data-list=unchecked]>.ql-ui:before {
+    content: '\2610'
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list] {
+        counter-set: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list] {
+        counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered] {
+    counter-increment: list-0
+}
+
+#credits-menu-content li[data-list=ordered]>.ql-ui:before {
+    content: counter(list-0, decimal) '. '
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-1 {
+    counter-increment: list-1
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-1>.ql-ui:before {
+    content: counter(list-1, lower-alpha) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-1 {
+        counter-set: list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-1 {
+        counter-reset: list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-2 {
+    counter-increment: list-2
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-2>.ql-ui:before {
+    content: counter(list-2, lower-roman) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-2 {
+        counter-set: list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-2 {
+        counter-reset: list-3 list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-3 {
+    counter-increment: list-3
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-3>.ql-ui:before {
+    content: counter(list-3, decimal) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-3 {
+        counter-set: list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-3 {
+        counter-reset: list-4 list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-4 {
+    counter-increment: list-4
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-4>.ql-ui:before {
+    content: counter(list-4, lower-alpha) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-4 {
+        counter-set: list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-4 {
+        counter-reset: list-5 list-6 list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-5 {
+    counter-increment: list-5
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-5>.ql-ui:before {
+    content: counter(list-5, lower-roman) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-5 {
+        counter-set: list-6 list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-5 {
+        counter-reset: list-6 list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-6 {
+    counter-increment: list-6
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-6>.ql-ui:before {
+    content: counter(list-6, decimal) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-6 {
+        counter-set: list-7 list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-6 {
+        counter-reset: list-7 list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-7 {
+    counter-increment: list-7
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-7>.ql-ui:before {
+    content: counter(list-7, lower-alpha) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-7 {
+        counter-set: list-8 list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-7 {
+        counter-reset: list-8 list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-8 {
+    counter-increment: list-8
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-8>.ql-ui:before {
+    content: counter(list-8, lower-roman) '. '
+}
+
+@supports (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-8 {
+        counter-set: list-9
+    }
+}
+
+@supports not (counter-set:none) {
+    #credits-menu-content li[data-list].ql-indent-8 {
+        counter-reset: list-9
+    }
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-9 {
+    counter-increment: list-9
+}
+
+#credits-menu-content li[data-list=ordered].ql-indent-9>.ql-ui:before {
+    content: counter(list-9, decimal) '. '
+}
+
+#credits-menu-content .ql-indent-1:not(.ql-direction-rtl) {
+    padding-left: 3em
+}
+
+#credits-menu-content li.ql-indent-1:not(.ql-direction-rtl) {
+    padding-left: 4.5em
+}
+
+#credits-menu-content .ql-indent-1.ql-direction-rtl.ql-align-right {
+    padding-right: 3em
+}
+
+#credits-menu-content li.ql-indent-1.ql-direction-rtl.ql-align-right {
+    padding-right: 4.5em
+}
+
+#credits-menu-content .ql-indent-2:not(.ql-direction-rtl) {
+    padding-left: 6em
+}
+
+#credits-menu-content li.ql-indent-2:not(.ql-direction-rtl) {
+    padding-left: 7.5em
+}
+
+#credits-menu-content .ql-indent-2.ql-direction-rtl.ql-align-right {
+    padding-right: 6em
+}
+
+#credits-menu-content li.ql-indent-2.ql-direction-rtl.ql-align-right {
+    padding-right: 7.5em
+}
+
+#credits-menu-content .ql-indent-3:not(.ql-direction-rtl) {
+    padding-left: 9em
+}
+
+#credits-menu-content li.ql-indent-3:not(.ql-direction-rtl) {
+    padding-left: 10.5em
+}
+
+#credits-menu-content .ql-indent-3.ql-direction-rtl.ql-align-right {
+    padding-right: 9em
+}
+
+#credits-menu-content li.ql-indent-3.ql-direction-rtl.ql-align-right {
+    padding-right: 10.5em
+}
+
+#credits-menu-content .ql-indent-4:not(.ql-direction-rtl) {
+    padding-left: 12em
+}
+
+#credits-menu-content li.ql-indent-4:not(.ql-direction-rtl) {
+    padding-left: 13.5em
+}
+
+#credits-menu-content .ql-indent-4.ql-direction-rtl.ql-align-right {
+    padding-right: 12em
+}
+
+#credits-menu-content li.ql-indent-4.ql-direction-rtl.ql-align-right {
+    padding-right: 13.5em
+}
+
+#credits-menu-content .ql-indent-5:not(.ql-direction-rtl) {
+    padding-left: 15em
+}
+
+#credits-menu-content li.ql-indent-5:not(.ql-direction-rtl) {
+    padding-left: 16.5em
+}
+
+#credits-menu-content .ql-indent-5.ql-direction-rtl.ql-align-right {
+    padding-right: 15em
+}
+
+#credits-menu-content li.ql-indent-5.ql-direction-rtl.ql-align-right {
+    padding-right: 16.5em
+}
+
+#credits-menu-content .ql-indent-6:not(.ql-direction-rtl) {
+    padding-left: 18em
+}
+
+#credits-menu-content li.ql-indent-6:not(.ql-direction-rtl) {
+    padding-left: 19.5em
+}
+
+#credits-menu-content .ql-indent-6.ql-direction-rtl.ql-align-right {
+    padding-right: 18em
+}
+
+#credits-menu-content li.ql-indent-6.ql-direction-rtl.ql-align-right {
+    padding-right: 19.5em
+}
+
+#credits-menu-content .ql-indent-7:not(.ql-direction-rtl) {
+    padding-left: 21em
+}
+
+#credits-menu-content li.ql-indent-7:not(.ql-direction-rtl) {
+    padding-left: 22.5em
+}
+
+#credits-menu-content .ql-indent-7.ql-direction-rtl.ql-align-right {
+    padding-right: 21em
+}
+
+#credits-menu-content li.ql-indent-7.ql-direction-rtl.ql-align-right {
+    padding-right: 22.5em
+}
+
+#credits-menu-content .ql-indent-8:not(.ql-direction-rtl) {
+    padding-left: 24em
+}
+
+#credits-menu-content li.ql-indent-8:not(.ql-direction-rtl) {
+    padding-left: 25.5em
+}
+
+#credits-menu-content .ql-indent-8.ql-direction-rtl.ql-align-right {
+    padding-right: 24em
+}
+
+#credits-menu-content li.ql-indent-8.ql-direction-rtl.ql-align-right {
+    padding-right: 25.5em
+}
+
+#credits-menu-content .ql-indent-9:not(.ql-direction-rtl) {
+    padding-left: 27em
+}
+
+#credits-menu-content li.ql-indent-9:not(.ql-direction-rtl) {
+    padding-left: 28.5em
+}
+
+#credits-menu-content .ql-indent-9.ql-direction-rtl.ql-align-right {
+    padding-right: 27em
+}
+
+#credits-menu-content li.ql-indent-9.ql-direction-rtl.ql-align-right {
+    padding-right: 28.5em
+}
+
+#credits-menu-content li.ql-direction-rtl {
+    padding-right: 1.5em
+}
+
+#credits-menu-content li.ql-direction-rtl>.ql-ui:before {
+    margin-left: .3em;
+    margin-right: -1.5em;
+    text-align: left
+}
+
+#credits-menu-content .ql-code-block-container {
+    font-family: monospace
+}
+
+#credits-menu-content .ql-video {
+    display: block;
+    max-width: 100%
+}
+
+#credits-menu-content .ql-video.ql-align-center {
+    margin: 0 auto
+}
+
+#credits-menu-content .ql-video.ql-align-right {
+    margin: 0 0 0 auto
+}
+
+#credits-menu-content .ql-bg-black {
+    background-color: #000000
+}
+
+#credits-menu-content .ql-bg-red {
+    background-color: #e60000
+}
+
+#credits-menu-content .ql-bg-orange {
+    background-color: #ff9900
+}
+
+#credits-menu-content .ql-bg-yellow {
+    background-color: #ffff00
+}
+
+#credits-menu-content .ql-bg-green {
+    background-color: #008a00
+}
+
+#credits-menu-content .ql-bg-blue {
+    background-color: #0066cc
+}
+
+#credits-menu-content .ql-bg-purple {
+    background-color: #9933ff
+}
+
+#credits-menu-content .ql-color-white {
+    color: #ffffff
+}
+
+#credits-menu-content .ql-color-red {
+    color: #e60000
+}
+
+#credits-menu-content .ql-color-orange {
+    color: #ff9900
+}
+
+#credits-menu-content .ql-color-yellow {
+    color: #ffff00
+}
+
+#credits-menu-content .ql-color-green {
+    color: #008a00
+}
+
+#credits-menu-content .ql-color-blue {
+    color: #0066cc
+}
+
+#credits-menu-content .ql-color-purple {
+    color: #9933ff
+}
+
+#credits-menu-content .ql-font-serif {
+    font-family: Georgia, "Times New Roman", serif
+}
+
+#credits-menu-content .ql-font-monospace {
+    font-family: Monaco, "Courier New", monospace
+}
+
+#credits-menu-content .ql-size-small {
+    font-size: .75em
+}
+
+#credits-menu-content .ql-size-large {
+    font-size: 1.5em
+}
+
+#credits-menu-content .ql-size-huge {
+    font-size: 2.5em
+}
+
+#credits-menu-content .ql-direction-rtl {
+    direction: rtl;
+    text-align: inherit
+}
+
+#credits-menu-content .ql-align-center {
+    text-align: center
+}
+
+#credits-menu-content .ql-align-justify {
+    text-align: justify
+}
+
+#credits-menu-content .ql-align-right {
+    text-align: right
+}
+
+#credits-menu-content .ql-ui {
+    position: absolute
+}
+
+#credits-menu-content h1 {
+    font-size: 2em
+}
+
+#credits-menu-content h2 {
+    font-size: 1.5em
+}
+
+#credits-menu-content h3 {
+    font-size: 1.17em
+}
+
+#credits-menu-content h4 {
+    font-size: 1em
+}
+
+#credits-menu-content h5 {
+    font-size: .83em
+}
+
+#credits-menu-content h6 {
+    font-size: .67em
+}
+
+#credits-menu-content a {
+    color: var(--menu-text);
+    text-decoration: underline
+}
+
+#credits-menu-content blockquote {
+    border-left: 4px solid var(--menu-text);
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-left: 16px
+}
+
+#credits-menu-content code,
+#credits-menu-content .ql-code-block-container {
+    border-radius: 3px
+}
+
+#credits-menu-content .ql-code-block-container {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 5px 10px
+}
+
+#credits-menu-content code {
+    font-size: 85%;
+    padding: 2px 4px
+}
+
+#credits-menu-content .ql-code-block-container {
+    background-color: #23241f;
+    color: #f8f8f2;
+    overflow: visible
+}
+
+#credits-menu-content img {
+    max-width: 100%;
+    border-radius: 1.5rem;
+}
+.allan-regular {
+    font-family: "Allan", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.allan-bold {
+    font-family: "Allan", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.ql-snow .ql-toolbar .ql-export,
+.ql-toolbar.ql-snow .ql-export {
+    width: auto;
+    padding: 3px 6px;
+}
+
+.ql-export::before {
+    content: 'Export';
+    font-size: 12px;
+}
+
+.ql-import::before {
+    content: 'Import';
+    font-size: 12px;
+}
+
+.ql-font-allan {
+    font-family: "Allan", serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=""]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=""]::before {
+    content: "Padrão";
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="allan"]::before {
+    content: "Allan";
+    font-family: "Allan", serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="allan"]::before {
+    content: "Allan";
+    font-family: "Allan", serif;
+}
