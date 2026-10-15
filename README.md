@@ -11,6 +11,7 @@ This is a template for converting Scratch-based Incredibox mods into websites, w
 * It allows you to use an image as the mod's title.
 * It allows you to set a custom background image for the home screen.
 * To modify a mod's settings and colors, you only need to edit a single file: `versions.json`, located in the root folder.
+* There is a credits system with an editor that can be accessed at [link](https://ovelhart.github.io/Incredibox-Tools/tools/editor.html).
 
 # How versions work
 Each mod is defined as an object inside `versions.json`. The `"folder"` field points to the mod's asset folder, and that same value is used in the URL (`app.html?v=folder-name`) to select which mod loads. This lets you keep several mods in the same template without duplicating any of the site files.
