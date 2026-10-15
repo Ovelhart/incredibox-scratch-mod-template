@@ -5,7 +5,8 @@
         "background-image": "home-screen.jpg",
         "mod-name": "Modbox",
         "title": {
-            "mode": "text",
+            "mode": "image",
+            "_comment": "To use text instead of an image, change 'image' to 'text' under 'mode'",
             "image": "title.png",
             "size": 4.6
         },
